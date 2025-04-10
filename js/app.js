@@ -48,11 +48,11 @@ function createResidents(apartments) {
         section.appendChild(countInput);
         section.appendChild(countButton);
 
-        countBtn(countButton, countInput, formContainer);
+        countBtn(countButton, countInput, formContainer, number, rooms);
     })
 }
 
-function countBtn(countButton, countInput, formContainer) {
+function countBtn(countButton, countInput, formContainer, number, rooms) {
     // // Слухаємо подію натискання кнопки для створення інпутів мешканців
     countButton.addEventListener('click', () => {
         //console.log(countInput)
@@ -95,56 +95,62 @@ function countBtn(countButton, countInput, formContainer) {
         formContainer.appendChild(residentsContainer);
        
        
-       createSetResidents (countButton2)
+       createSetResidents (countButton2, number, rooms)
     });
-}                
+}     
 
-function createSetResidents (countButton2) {
+
+
+function createSetResidents(countButton2, number, roomsAmount) {
     const inputs = document.querySelectorAll('input[resident="resident"]');
-    const people = [];
-    let peopleObject = {}; // Новый объект
-    inputs.forEach(input => {
-        console.log(`Name: ${input.name}, Value: ${input.value}`);
-        // check
-        const btnNameResid = document.querySelector('.btnCreateResidents')
-        console.log(btnNameResid);    
+    const people = []; // Массив для хранения данных о резидентах
 
-        btnNameResid.addEventListener('click', () => {
-            const currentValuePerson = input.value; // zamikanie
-           // console.log(currentValuePerson);
-            people.push(currentValuePerson); 
-           // console.log(people)    
-           
-           const age = Math.floor(Math.random() * (70 - 5 + 1)) + 5;
+    const btnNameResid = document.querySelector('.btnCreateResidents'); // Элемент кнопки
+    console.log(btnNameResid);
+
+    btnNameResid.addEventListener('click', () => {
+        inputs.forEach(input => {
+            const currentValuePerson = input.value; // Значение из поля ввода
+            const age = Math.floor(Math.random() * (70 - 5 + 1)) + 5; // Случайный возраст от 5 до 70
             
-           peopleObject = {
-               name: currentValuePerson,
-               age: age,
-           };  
-        });  
+            // Создаём объект для каждого человека
+            const personObject = {
+                name: currentValuePerson,
+                age: age,
+            };
 
-        
-    });console.log(peopleObject);
-    //         return peopleObject; // Возвращаем объект
+            people.push(personObject); // Добавляем объект в массив
+            input.value = '';
+        });
+   
+        console.log(people); // Проверяем массив
+           //  объекты в экземпляры класса Person
+    const personInstances = people.map(personData => new Person(personData.name, personData.age));
+    console.log(personInstances)
+    personInstances.forEach(person => person.getInfo())
+    const myApartment2 = new Apartment(number.innerText, roomsAmount, people);
+    console.log(myApartment2)
   
+    myApartment2.getInfo()
+    console.log(myApartment2)
+
+
+    });  
+
 }
 
-// function crteateForPersonObject(people) {
-//     console.log(people)
-//     const peopleObject = {}; // Новый объект
 
-//     people.forEach(person => {
-//         console.log(person)
-//         const age = Math.floor(Math.random() * (70 - 5 + 1)) + 5;
-            
-//             peopleObject = {
-//                 name: person,
-//                 age: age,
-//             };  
-//         });
-//       //  console.log(peopleObject);
-//         return peopleObject; // Возвращаем объект
-// }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
